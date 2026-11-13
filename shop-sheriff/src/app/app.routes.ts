@@ -21,6 +21,11 @@ export const routes: Routes = [
     loadChildren: () => import('./domains/catalog/feature-product').then((m) => m.productRoutes),
   },
   {
+    path: 'wishlist',
+    loadChildren: () => import('./domains/wishlist/feature-wishlist/wishlist-page')
+      .then((m) =>  [ { path: '', component: m.WishlistPage} ]),
+  },
+  {
     path: 'articles',
     loadChildren: () => import('./domains/articles/articles.routes').then((m) => m.articlesRoutes),
   },

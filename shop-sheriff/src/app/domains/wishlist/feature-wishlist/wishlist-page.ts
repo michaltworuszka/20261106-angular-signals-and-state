@@ -3,14 +3,14 @@ import { FormField, FormRoot, form, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
 
-// ────────────────────────────────────────────────────────────────
+// data-access ────────────────────────────────────────────────────────────────
 
 @Injectable({ providedIn: 'root' })
 export class WishlistStore {
   readonly slugs: string[] = [];
 }
 
-// ────────────────────────────────────────────────────────────────
+// component (/ui) ────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'app-wishlist-toggle',
