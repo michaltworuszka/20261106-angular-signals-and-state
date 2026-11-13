@@ -34,6 +34,10 @@ export const routes: Routes = [
     loadChildren: () => import('./domains/account/feature-login').then((m) => m.loginRoutes),
   },
   {
+    path: 'wishlist',
+    loadChildren: () => import('./domains/wishlist/feature-wishlist').then((m) => m.wishlistRoutes),
+  },
+  {
     path: 'cart',
     canActivate: [roleGuard('buyer')],
     loadChildren: () => import('./domains/checkout/feature-cart').then((m) => m.cartRoutes),
@@ -44,6 +48,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./domains/checkout/feature-my-orders').then((m) => m.myOrdersRoutes),
   },
+
   {
     path: 'backoffice',
     children: [

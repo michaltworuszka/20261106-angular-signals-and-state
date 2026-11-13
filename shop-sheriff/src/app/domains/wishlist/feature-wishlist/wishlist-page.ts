@@ -1,62 +1,63 @@
 import { Component, Injectable, inject, signal, input, output, computed } from '@angular/core';
 import { FormField, FormRoot, form, required, minLength } from '@angular/forms/signals';
-import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
-import { JsonPipe } from '@angular/common';
+import { WishlistItem } from './wishlist-item';
 
-// data-access ────────────────────────────────────────────────────────────────
+// ### 1. Recap: sygnały i store
+//
+// 1.1 `WishlistStore.slugs` to zwykła tablica. Zamień na sygnał: prywatny, zapisywalny
+// 1.2 Na zewnątrz wystaw go tylko do odczytu
+//   1.3 `count` — liczba ulubionych (stan pochodny). Wepnij w badge "Liked" (teraz na sztywno `0`)
+// 1.4 Metody `has(slug)`, `toggle(slug)`, `remove(slug)` — bez mutowania tablicy
+// 1.5 `WishlistToggle` (♡): `active` jest teraz lokalnym sygnałem. Kto powinien decydować, czy ♡ jest aktywne?
+//   Zamień na wejście. Dodaj wyjście `toggled` i podepnij kliknięcie. Komponent nie zna store'a.
+// 1.6 Wepnij ♡ w listę demo: stan ze store'a → wejście, kliknięcie → `toggle`
+// 1.7 Sekcja "Liked" ma czytać sygnał ze store'a
+
+// data access ────────────────────────────────────────────────────────────────
+
+// @Injectable({ providedIn: 'root' })
+// export class WishlistStore {
+//   private _slugs: string[] = [];
+//
+//   get slugs(): string[] {
+//     return this._slugs;
+//   }
+//
+//   toggleOnList(slug: string): void {
+//     if(this.has(slug)) {
+//       this._slugs = this._slugs.filter(s => s !== slug);
+//     } else {
+//       this._slugs.push(slug);
+//     }
+//   }
+//
+//   has(slug: string): boolean {
+//     return this._slugs.includes(slug);
+//   }
+//
+//   get count(): number {
+//     return this._slugs.length;
+//   }
+// }
 
 @Injectable({ providedIn: 'root' })
 export class WishlistStore {
-  private _slugs  = signal<string[]>([]);
+  private _slugs = signal<string[]>([]);
 
   slugs = this._slugs.asReadonly();
-  count = computed(() => this._slugs().length)
+  count = computed(() => this._slugs().length);
 
-  toggleOnList(slug: string) {
-    this._slugs.update((sl) => this.has(slug) ? sl.filter((s) => s !== slug) : [...sl, slug]);
+  toggleOnList(slug: string): void {
+    this._slugs.update((sl) => (this.has(slug) ? sl.filter((s) => s !== slug) : [...sl, slug]));
   }
 
-  has(lookFor: string): boolean {
-    return this._slugs().includes(lookFor)
-  }
-}
-
-/*
-@Injectable({ providedIn: 'root' })
-export class WishlistStore {
-  private _slugs: string[] = [
-    'typeforge-tkl-mechanical-keyboard',
-    'typeforge-75-wireless-keyboard',
-  ];
-
-  get slugs(): readonly string[] {
-    return this._slugs;
-  }
-
-  get count(): number {
-    return this._slugs.length;
-  }
-
-  toggleOnList(slug: string) {
-    if(this.has(slug)) {
-      this._slugs = this._slugs.filter((s) => s !== slug);
-    } else {
-      this._slugs.push(slug);
-    }
-  }
-
-  has(lookFor: string): boolean {
-    return this._slugs.includes(lookFor)
+  has(slug: string): boolean {
+    return this._slugs().includes(slug);
   }
 }
-* */
 
-// const myStore = new WishlistStore();
-//
-// myStore.slugs.push()
-
-// component (/ui) ────────────────────────────────────────────────────────────────
+// component (ui) ────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'app-wishlist-toggle',
@@ -75,16 +76,15 @@ export class WishlistStore {
   `,
 })
 export class WishlistToggle {
-  // @Input()
   readonly active = input(false);
-  // @Output()
   readonly addToList = output<void>();
-
-  // RUNTIME Exception - widoczny będzie w konsoli przeglądarki (f12) narzędzia DevTools
-  // throwError() {
-  //   throw new Error('!');
-  // }
 }
+
+// RUNTIME Exception - widoczny będzie w konsoli przeglądarki (f12) narzędzia DevTools
+// throwError() {
+//   throw new Error('!');
+// }
+
 // ─────────────────────────────────────────────────────────────────
 
 /** Real slugs from shop-api. */
@@ -105,7 +105,7 @@ interface WishlistDetails {
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [PageHeader, RouterLink, WishlistToggle, FormField, FormRoot, JsonPipe],
+  imports: [PageHeader, WishlistToggle, FormField, FormRoot, WishlistItem],
   template: `
     <app-page-header title="My wishlist" subtitle="Click ♡ to like a product." />
 
@@ -114,8 +114,8 @@ interface WishlistDetails {
         <li class="list-group-item d-flex justify-content-between align-items-center">
           {{ slug }}
           <app-wishlist-toggle
-            [active]="wishlist.has(slug)"
-            (addToList)="wishlist.toggleOnList(slug)"
+            [active]="wishlistStore.has(slug)"
+            (addToList)="wishlistStore.toggleOnList(slug)"
           />
         </li>
       }
@@ -127,6 +127,7 @@ interface WishlistDetails {
     <!-- formRoot: dodaje novalidate, on submit zaznacza pola jako touched, uruchamia submission.action tylko jeśli pola valid! -->
     <form [formRoot]="detailsForm" class="vstack gap-3" style="max-width: 32rem">
       @let name = detailsForm.name();
+      @let desc = detailsForm.description();
       <div>
         <label class="form-label" for="wishlist-name">Name</label>
         <input
@@ -144,21 +145,15 @@ interface WishlistDetails {
       </div>
 
       <div>
-        @let desc = detailsForm.description();
         <label class="form-label" for="wishlist-description">Description</label>
         <textarea
           id="wishlist-description"
           class="form-control"
           rows="3"
-          [class.is-invalid]="detailsForm.description().touched() && desc.invalid()"
+          [class.is-invalid]="desc.touched() && desc.invalid()"
           [class.is-valid]="desc.touched() && desc.valid()"
           [formField]="detailsForm.description"
         ></textarea>
-        @if (desc.touched()) {
-          @for (error of desc.errors(); track error.kind) {
-            <div class="invalid-feedback">{{ error.message }}</div>
-          }
-        }
       </div>
 
       <div class="d-flex gap-2">
@@ -172,14 +167,12 @@ interface WishlistDetails {
     </form>
 
     <h2 class="h5 mt-4 d-flex justify-content-between">
-      Liked<span class="badge text-bg-danger">{{ wishlist.count() }}</span>
+      Liked<span class="badge text-bg-danger">{{ wishlistStore.count() }}</span>
     </h2>
-    @if (wishlist.count()) {
+    @if (wishlistStore.count()) {
       <ul class="list-group">
-        @for (slug of wishlist.slugs(); track slug) {
-          <li class="list-group-item d-flex justify-content-between">
-            <a [routerLink]="['/products', slug]">{{ slug }}</a>
-          </li>
+        @for (slug of wishlistStore.slugs(); track slug) {
+          <app-wishlist-item [slug]="slug"/>
         }
       </ul>
     } @else {
@@ -187,8 +180,20 @@ interface WishlistDetails {
     }
   `,
 })
+
+// ### 2. Formularz — szczegóły listy (Signal Forms)
+//
+// Sekcja "List details": `name` jest wpięte, `description` jeszcze nie. "Save" nic nie robi.
+//   Dokumentacja Signal Forms: linki w komentarzu nad modelem formularza w `WishlistPage`.
+//
+// 2.1 Wepnij `description` — analogicznie do `name`
+// 2.2 W store: `details` (tylko do odczytu) + `saveDetails(details)`
+// 2.3 Model formularza ≠ store. Model to lokalna kopia robocza — pisanie nie zmienia store'a dopóki nie klikniemy "Save".
+// Model startuje z wartości zapisanych w store
+// 2.4 "Save" → zapis do store'a. Uwaga na komentarz przy `<form>`: kiedy wykona się zapis?
+// Gotowy formularz z tym samym API: `backoffice/feature-stock/new-product-form`
 export class WishlistPage {
-  protected readonly wishlist = inject(WishlistStore);
+  protected readonly wishlistStore = inject(WishlistStore);
   protected readonly demoSlugs = DEMO_SLUGS;
 
   // Signal Forms docs: https://angular.dev/guide/forms/signals/overview
@@ -205,13 +210,12 @@ export class WishlistPage {
     this.detailsModel,
     (p) => {
       required(p.name, { message: 'Name is required' });
-      minLength(p.description, 5, {message: 'Description must be at least 5 characters'});
+      minLength(p.description, 5, { message: 'Description must be at least 5 characters' });
     },
     {
       submission: {
         action: async () => {
           console.log(this.detailsModel());
-          // this.wishlist.saveDetails(this.detailsModel());
         },
       },
     },
