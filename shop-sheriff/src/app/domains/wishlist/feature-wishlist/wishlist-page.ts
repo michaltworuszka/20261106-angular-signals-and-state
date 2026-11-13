@@ -1,10 +1,30 @@
-import { Component, Injectable, inject, signal, input, output } from '@angular/core';
+import { Component, Injectable, inject, signal, input, output, computed } from '@angular/core';
 import { FormField, FormRoot, form, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
 
 // data-access ────────────────────────────────────────────────────────────────
 
+@Injectable({ providedIn: 'root' })
+export class WishlistStore {
+  private _slugs  = signal<string[]>([
+    'typeforge-tkl-mechanical-keyboard',
+    'typeforge-75-wireless-keyboard',
+  ]);
+
+  slugs = this._slugs.asReadonly();
+  count = computed(() => this._slugs().length)
+
+  toggleOnList(slug: string) {
+    this._slugs.update((sl) => this.has(slug) ? sl.filter((s) => s !== slug) : [...sl, slug]);
+  }
+
+  has(lookFor: string): boolean {
+    return this._slugs().includes(lookFor)
+  }
+}
+
+/*
 @Injectable({ providedIn: 'root' })
 export class WishlistStore {
   private _slugs: string[] = [
@@ -32,6 +52,7 @@ export class WishlistStore {
     return this._slugs.includes(lookFor)
   }
 }
+* */
 
 // const myStore = new WishlistStore();
 //
@@ -129,11 +150,11 @@ interface WishlistDetails {
     </form>
 
     <h2 class="h5 mt-4 d-flex justify-content-between">
-      Liked<span class="badge text-bg-danger">{{ wishlist.count }}</span>
+      Liked<span class="badge text-bg-danger">{{ wishlist.count() }}</span>
     </h2>
-    @if (wishlist.count) {
+    @if (wishlist.count()) {
       <ul class="list-group">
-        @for (slug of wishlist.slugs; track slug) {
+        @for (slug of wishlist.slugs(); track slug) {
           <li class="list-group-item d-flex justify-content-between">
             <a [routerLink]="['/products', slug]">{{ slug }}</a>
           </li>
