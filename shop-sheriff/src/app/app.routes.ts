@@ -22,8 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'wishlist',
-    loadChildren: () => import('./domains/wishlist/feature-wishlist/wishlist-page')
-      .then((m) =>  [ { path: '', component: m.WishlistPage} ]),
+    loadChildren: () => import('./domains/wishlist/feature-wishlist')
+      .then((m) =>  m.wishlistRoutes),
   },
   {
     path: 'articles',
