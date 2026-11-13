@@ -1,5 +1,5 @@
 import { Component, Injectable, inject, signal, input, output, computed } from '@angular/core';
-import { FormField, FormRoot, form, required } from '@angular/forms/signals';
+import { FormField, FormRoot, form, required, minLength } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
 import { JsonPipe } from '@angular/common';
@@ -99,6 +99,8 @@ const DEMO_SLUGS = [
 interface WishlistDetails {
   name: string;
   description: string;
+
+  giftSlug: string;
 }
 
 @Component({
@@ -142,16 +144,31 @@ interface WishlistDetails {
       </div>
 
       <div>
+        @let desc = detailsForm.description();
         <label class="form-label" for="wishlist-description">Description</label>
-        <textarea id="wishlist-description" class="form-control" rows="3"></textarea>
+        <textarea
+          id="wishlist-description"
+          class="form-control"
+          rows="3"
+          [class.is-invalid]="detailsForm.description().touched() && desc.invalid()"
+          [class.is-valid]="desc.touched() && desc.valid()"
+          [formField]="detailsForm.description"
+        ></textarea>
+        @if (desc.touched()) {
+          @for (error of desc.errors(); track error.kind) {
+            <div class="invalid-feedback">{{ error.message }}</div>
+          }
+        }
       </div>
 
       <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" [style.opacity]="detailsForm().invalid() ? 0.5 : 1" class="btn btn-primary">
+          Save
+        </button>
       </div>
-      <pre>
+      <!--<pre>
         {{ detailsModel() | json }}
-      </pre>
+      </pre>-->
     </form>
 
     <h2 class="h5 mt-4 d-flex justify-content-between">
@@ -178,9 +195,25 @@ export class WishlistPage {
   //   model:      https://angular.dev/guide/forms/signals/models
   //   validation: https://angular.dev/guide/forms/signals/validation  (async: …/async-operations)
   //   submit:     https://angular.dev/guide/forms/signals/form-submission
-  private readonly detailsModel = signal<WishlistDetails>({ name: 'hello', description: '??' });
-
-  protected readonly detailsForm = form(this.detailsModel, (p) => {
-    required(p.name, { message: 'Name is required' });
+  private readonly detailsModel = signal<WishlistDetails>({
+    name: '',
+    description: '',
+    giftSlug: '',
   });
+
+  protected readonly detailsForm = form(
+    this.detailsModel,
+    (p) => {
+      required(p.name, { message: 'Name is required' });
+      minLength(p.description, 5, {message: 'Description must be at least 5 characters'});
+    },
+    {
+      submission: {
+        action: async () => {
+          console.log(this.detailsModel());
+          // this.wishlist.saveDetails(this.detailsModel());
+        },
+      },
+    },
+  );
 }
