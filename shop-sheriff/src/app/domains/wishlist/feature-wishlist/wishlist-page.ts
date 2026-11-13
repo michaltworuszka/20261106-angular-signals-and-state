@@ -1,4 +1,4 @@
-import { Component, Injectable, inject, signal } from '@angular/core';
+import { Component, Injectable, inject, signal, input, output } from '@angular/core';
 import { FormField, FormRoot, form, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
@@ -7,8 +7,31 @@ import { PageHeader } from '../../../shared/ui';
 
 @Injectable({ providedIn: 'root' })
 export class WishlistStore {
-  readonly slugs: string[] = [];
+  private _slugs: string[] = [
+    'typeforge-tkl-mechanical-keyboard',
+    'typeforge-75-wireless-keyboard',
+  ];
+
+  get slugs(): readonly string[] {
+    return this._slugs;
+  }
+
+  toggleOnList(slug: string) {
+    if(this.has(slug)) {
+      this._slugs = this._slugs.filter((s) => s !== slug);
+    } else {
+      this._slugs.push(slug);
+    }
+  }
+
+  has(lookFor: string): boolean {
+    return this._slugs.includes(lookFor)
+  }
 }
+
+// const myStore = new WishlistStore();
+//
+// myStore.slugs.push()
 
 // component (/ui) ────────────────────────────────────────────────────────────────
 
@@ -22,13 +45,17 @@ export class WishlistStore {
       [class.btn-outline-danger]="!active()"
       [attr.aria-pressed]="active()"
       [attr.aria-label]="active() ? 'Remove from wishlist' : 'Add to wishlist'"
+      (click)="addToList.emit()"
     >
       {{ active() ? '♥' : '♡' }}
     </button>
   `,
 })
 export class WishlistToggle {
-  readonly active = signal(false);
+  // @Input()
+  readonly active = input(false);
+  // @Output()
+  readonly addToList = output<void>()
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -57,7 +84,7 @@ interface WishlistDetails {
       @for (slug of demoSlugs; track slug) {
         <li class="list-group-item d-flex justify-content-between align-items-center">
           {{ slug }}
-          <app-wishlist-toggle />
+          <app-wishlist-toggle [active]="wishlist.has(slug)" (addToList)="wishlist.toggleOnList(slug)" />
         </li>
       }
     </ul>
