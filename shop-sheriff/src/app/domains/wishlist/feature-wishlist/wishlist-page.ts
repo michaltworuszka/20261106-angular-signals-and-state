@@ -16,6 +16,10 @@ export class WishlistStore {
     return this._slugs;
   }
 
+  get count(): number {
+    return this._slugs.length;
+  }
+
   toggleOnList(slug: string) {
     if(this.has(slug)) {
       this._slugs = this._slugs.filter((s) => s !== slug);
@@ -84,7 +88,10 @@ interface WishlistDetails {
       @for (slug of demoSlugs; track slug) {
         <li class="list-group-item d-flex justify-content-between align-items-center">
           {{ slug }}
-          <app-wishlist-toggle [active]="wishlist.has(slug)" (addToList)="wishlist.toggleOnList(slug)" />
+          <app-wishlist-toggle
+            [active]="wishlist.has(slug)"
+            (addToList)="wishlist.toggleOnList(slug)"
+          />
         </li>
       }
     </ul>
@@ -122,9 +129,9 @@ interface WishlistDetails {
     </form>
 
     <h2 class="h5 mt-4 d-flex justify-content-between">
-      Liked<span class="badge text-bg-danger">0</span>
+      Liked<span class="badge text-bg-danger">{{ wishlist.count }}</span>
     </h2>
-    @if (wishlist.slugs.length) {
+    @if (wishlist.count) {
       <ul class="list-group">
         @for (slug of wishlist.slugs; track slug) {
           <li class="list-group-item d-flex justify-content-between">
