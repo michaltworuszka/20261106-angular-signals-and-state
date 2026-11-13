@@ -2,15 +2,13 @@ import { Component, Injectable, inject, signal, input, output, computed } from '
 import { FormField, FormRoot, form, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
+import { JsonPipe } from '@angular/common';
 
 // data-access ────────────────────────────────────────────────────────────────
 
 @Injectable({ providedIn: 'root' })
 export class WishlistStore {
-  private _slugs  = signal<string[]>([
-    'typeforge-tkl-mechanical-keyboard',
-    'typeforge-75-wireless-keyboard',
-  ]);
+  private _slugs  = signal<string[]>([]);
 
   slugs = this._slugs.asReadonly();
   count = computed(() => this._slugs().length)
@@ -80,9 +78,13 @@ export class WishlistToggle {
   // @Input()
   readonly active = input(false);
   // @Output()
-  readonly addToList = output<void>()
-}
+  readonly addToList = output<void>();
 
+  // RUNTIME Exception - widoczny będzie w konsoli przeglądarki (f12) narzędzia DevTools
+  // throwError() {
+  //   throw new Error('!');
+  // }
+}
 // ─────────────────────────────────────────────────────────────────
 
 /** Real slugs from shop-api. */
@@ -101,7 +103,7 @@ interface WishlistDetails {
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [PageHeader, RouterLink, WishlistToggle, FormField, FormRoot],
+  imports: [PageHeader, RouterLink, WishlistToggle, FormField, FormRoot, JsonPipe],
   template: `
     <app-page-header title="My wishlist" subtitle="Click ♡ to like a product." />
 
@@ -147,6 +149,9 @@ interface WishlistDetails {
       <div class="d-flex gap-2">
         <button type="submit" class="btn btn-primary">Save</button>
       </div>
+      <pre>
+        {{ detailsModel() | json }}
+      </pre>
     </form>
 
     <h2 class="h5 mt-4 d-flex justify-content-between">
@@ -173,7 +178,7 @@ export class WishlistPage {
   //   model:      https://angular.dev/guide/forms/signals/models
   //   validation: https://angular.dev/guide/forms/signals/validation  (async: …/async-operations)
   //   submit:     https://angular.dev/guide/forms/signals/form-submission
-  private readonly detailsModel = signal<WishlistDetails>({ name: '', description: '' });
+  private readonly detailsModel = signal<WishlistDetails>({ name: 'hello', description: '??' });
 
   protected readonly detailsForm = form(this.detailsModel, (p) => {
     required(p.name, { message: 'Name is required' });
