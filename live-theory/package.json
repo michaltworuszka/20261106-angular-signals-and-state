@@ -6,7 +6,9 @@
     "start": "ng serve --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --reporters=verbose",
+    "test:list": "ng test --list-tests",
+    "test:ui": "ng test --ui --watch",
     "serve:ssr:live-theory": "node dist/live-theory/server/server.mjs",
     "example:c01": "pnpm dlx tsx ./src/app/c-signals/c01-signal-without-component.ts",
     "lint": "ng lint",
@@ -24,6 +26,7 @@
     "@angular/platform-server": "^22.1.0",
     "@angular/router": "^22.1.0",
     "@angular/ssr": "^22.1.8",
+    "@ngrx/signals": "^22.0.1",
     "bootstrap": "5.3.8",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
@@ -44,6 +47,7 @@
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "8.71.0",
+    "@vitest/ui": "4.1.12",
     "vitest": "^4.0.8"
   }
 }

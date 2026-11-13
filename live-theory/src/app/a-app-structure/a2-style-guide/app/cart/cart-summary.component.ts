@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { formatPrice } from '../format-price';
 import { CartService } from './cart.service';
 
 @Component({
   selector: 'app-a2-cart-summary',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="card">
       <div class="card-body">

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StructureExplorer } from '../structure-explorer';
 import { dir, file, SHOP_FEATURES } from '../structure-tree';
 import { Shop } from './app/components/shop';
@@ -32,7 +32,6 @@ const TREE = dir(
 @Component({
   selector: 'app-a1-by-type-page',
   imports: [Shop, StructureExplorer],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">A1 – naiwny podział: wg typu</header>
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StructureExplorer } from '../structure-explorer';
 import { dir, featureDir, file, SHOP_FEATURES } from '../structure-tree';
 import { Shop } from './app/shop';
@@ -61,7 +61,6 @@ const TREE = dir(
 @Component({
   selector: 'app-a4-sheriff-page',
   imports: [Shop, StructureExplorer],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       A4 – granice pilnowane przez Sheriff

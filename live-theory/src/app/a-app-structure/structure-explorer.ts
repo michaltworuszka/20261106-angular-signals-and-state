@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { FeatureMeta, filesByFolder, TreeDir } from './structure-tree';
 import { TreeView } from './tree-view';
 
@@ -6,7 +6,6 @@ import { TreeView } from './tree-view';
 @Component({
   selector: 'app-structure-explorer',
   imports: [TreeView],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p class="mb-2">Zmieniamy jedną funkcję biznesową. Ile folderów dotkniemy?</p>
     <div class="d-flex flex-wrap gap-2 mb-3">

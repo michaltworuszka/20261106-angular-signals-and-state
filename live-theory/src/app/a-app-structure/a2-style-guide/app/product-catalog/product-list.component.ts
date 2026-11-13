@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartService } from '../cart/cart.service'; // ⚠ reaches into another feature – style guide has no rule (→ A3)
 import { formatPrice } from '../format-price';
 import { Product } from './product.model';
@@ -6,7 +6,6 @@ import { ProductCatalogService } from './product-catalog.service';
 
 @Component({
   selector: 'app-a2-product-list',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ul class="list-group">
       @for (product of catalog.products(); track product.id) {

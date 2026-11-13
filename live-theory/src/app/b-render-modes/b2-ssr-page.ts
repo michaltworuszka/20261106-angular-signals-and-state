@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RenderModesCompare } from './render-modes-compare';
 
 @Component({
   selector: 'app-b2-ssr-page',
   imports: [RenderModesCompare],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       B2 – SSR: renderowanie na serwerze

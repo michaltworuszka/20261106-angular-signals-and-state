@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-a4-sheriff-config-page',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       A4 – konfiguracja Sheriff: podstawy
@@ -82,8 +81,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
             niego pasują – wartości się <strong>sumują</strong>.
             <div class="text-body-secondary">
               <code>products/ui</code> = <code>domain:products</code> + <code>type:ui</code><br />
-              <code>domain:products</code> ← <code>'domain:*'</code> + <code>'domain:products'</code>
-              → <code>sameTag</code>, <code>domain:shared</code>, <code>domain:cart</code><br />
+              <code>domain:products</code> ← <code>'domain:*'</code> +
+              <code>'domain:products'</code> → <code>sameTag</code>, <code>domain:shared</code>,
+              <code>domain:cart</code><br />
               <code>type:ui</code> ← <code>'type:ui'</code> → <code>type:ui</code>,
               <code>type:data</code>
             </div>

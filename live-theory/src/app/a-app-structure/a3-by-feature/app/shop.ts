@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CartWidget } from './features/cart/cart-widget';
 
@@ -6,7 +6,6 @@ import { CartWidget } from './features/cart/cart-widget';
 @Component({
   selector: 'app-a3-shop',
   imports: [RouterOutlet, CartWidget],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="row g-3">
       <div class="col-md-7"><router-outlet /></div>

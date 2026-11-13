@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { fakeApi } from './server-fake-api';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -13,16 +14,10 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * Part D fake backend – real HTTP endpoints under /api (visible in DevTools → Network).
+ * Must be registered before static files and the Angular catch-all below.
  */
+app.use('/api', fakeApi);
 
 /**
  * Serve static files from /browser

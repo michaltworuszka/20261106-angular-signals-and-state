@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StructureExplorer } from '../structure-explorer';
 import { dir, featureDir, file, SHOP_FEATURES } from '../structure-tree';
 import { Shop } from './app/shop';
@@ -64,7 +64,6 @@ const IMPORT_RULES: ImportRule[] = [
 @Component({
   selector: 'app-a3-by-feature-page',
   imports: [Shop, StructureExplorer],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">A3 – podział wg feature</header>
 

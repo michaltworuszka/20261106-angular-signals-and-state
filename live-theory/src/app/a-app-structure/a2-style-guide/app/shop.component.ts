@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CartSummaryComponent } from './cart/cart-summary.component';
 import { ProductListComponent } from './product-catalog/product-list.component';
 
@@ -6,7 +6,6 @@ import { ProductListComponent } from './product-catalog/product-list.component';
 @Component({
   selector: 'app-a2-shop',
   imports: [ProductListComponent, CartSummaryComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="row g-3">
       <div class="col-md-7"><app-a2-product-list /></div>

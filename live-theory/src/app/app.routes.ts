@@ -97,19 +97,19 @@ export const routes: Routes = [
         path: 'basics',
         title: 'signal() – podstawy',
         loadComponent: () =>
-          import('./c-signals/components/signals-basics').then((m) => m.SignalsBasics),
+          import('./c-signals/c02-signals-basics').then((m) => m.C02SignalsBasics),
       },
       {
         path: 'complex-data',
         title: 'signal() – złożone dane',
         loadComponent: () =>
-          import('./c-signals/components/signal-complex-data').then((m) => m.SignalComplexData),
+          import('./c-signals/c03-signal-complex-data').then((m) => m.C03SignalComplexData),
       },
       {
         path: 'same-reference',
         title: 'signal() – ta sama referencja',
         loadComponent: () =>
-          import('./c-signals/components/signal-same-reference').then((m) => m.SignalSameReference),
+          import('./c-signals/c04-signal-same-reference').then((m) => m.C04SignalSameReference),
       },
     ],
   },
@@ -122,13 +122,13 @@ export const routes: Routes = [
         path: 'basics',
         title: 'computed() – podstawy',
         loadComponent: () =>
-          import('./c-signals/components/signal-computed').then((m) => m.SignalComputed),
+          import('./c-signals/c05-signal-computed').then((m) => m.C05SignalComputed),
       },
       {
         path: 'cart-total',
         title: 'computed() – suma koszyka',
         loadComponent: () =>
-          import('./c-signals/components/signal-computed-cart').then((m) => m.SignalComputedCart),
+          import('./c-signals/c06-signal-computed-cart').then((m) => m.C06SignalComputedCart),
       },
     ],
   },
@@ -140,23 +140,20 @@ export const routes: Routes = [
       {
         path: 'basics',
         title: 'linkedSignal() – reset wyboru',
-        loadComponent: () =>
-          import('./c-signals/components/signal-linked').then((m) => m.SignalLinked),
+        loadComponent: () => import('./c-signals/c07-signal-linked').then((m) => m.C07SignalLinked),
       },
       {
         path: 'previous',
         title: 'linkedSignal() – poprzedni wybór',
         loadComponent: () =>
-          import('./c-signals/components/signal-linked-previous').then(
-            (m) => m.SignalLinkedPrevious,
-          ),
+          import('./c-signals/c08-signal-linked-previous').then((m) => m.C08SignalLinkedPrevious),
       },
       {
         path: 'anti-pattern',
         title: 'linkedSignal() – antywzorce',
         loadComponent: () =>
-          import('./c-signals/components/signal-linked-anti-pattern').then(
-            (m) => m.SignalLinkedAntiPattern,
+          import('./c-signals/c09-signal-linked-anti-pattern').then(
+            (m) => m.C09SignalLinkedAntiPattern,
           ),
       },
     ],
@@ -169,31 +166,30 @@ export const routes: Routes = [
       {
         path: 'autosave',
         title: 'effect() – autozapis',
-        loadComponent: () =>
-          import('./c-signals/components/signal-effect').then((m) => m.SignalEffect),
+        loadComponent: () => import('./c-signals/c10-signal-effect').then((m) => m.C10SignalEffect),
       },
       {
         path: 'anti-pattern-1',
         title: 'effect() – antywzorzec #1',
         loadComponent: () =>
-          import('./c-signals/components/signal-effect-anti-pattern-1').then(
-            (m) => m.SignalEffectAntiPattern1,
+          import('./c-signals/c11-signal-effect-anti-pattern-1').then(
+            (m) => m.C11SignalEffectAntiPattern1,
           ),
       },
       {
         path: 'anti-pattern-2',
         title: 'effect() – antywzorzec #2',
         loadComponent: () =>
-          import('./c-signals/components/signal-effect-anti-pattern-2').then(
-            (m) => m.SignalEffectAntiPattern2,
+          import('./c-signals/c12-signal-effect-anti-pattern-2').then(
+            (m) => m.C12SignalEffectAntiPattern2,
           ),
       },
       {
         path: 'anti-pattern-3',
         title: 'effect() – antywzorzec #3',
         loadComponent: () =>
-          import('./c-signals/components/signal-effect-anti-pattern-3').then(
-            (m) => m.SignalEffectAntiPattern3,
+          import('./c-signals/c13-signal-effect-anti-pattern-3').then(
+            (m) => m.C13SignalEffectAntiPattern3,
           ),
       },
     ],
@@ -206,14 +202,12 @@ export const routes: Routes = [
       {
         path: 'input',
         title: 'input() i input.required()',
-        loadComponent: () =>
-          import('./c-signals/components/signal-input').then((m) => m.SignalInput),
+        loadComponent: () => import('./c-signals/c14-signal-input').then((m) => m.C14SignalInput),
       },
       {
         path: 'output',
         title: 'output() – zdarzenia',
-        loadComponent: () =>
-          import('./c-signals/components/signal-output').then((m) => m.SignalOutput),
+        loadComponent: () => import('./c-signals/c15-signal-output').then((m) => m.C15SignalOutput),
       },
     ],
   },
@@ -221,9 +215,162 @@ export const routes: Routes = [
     path: 'signal-long-distance',
     title: 'Sygnał w serwisie',
     loadComponent: () =>
-      import('./c-signals/components/signal-communication-for-long-distance').then(
-        (m) => m.SignalCommunicationForLongDistance,
+      import('./c-signals/c16-signal-communication-for-long-distance').then(
+        (m) => m.C16SignalCommunicationForLongDistance,
       ),
+  },
+  // Part D – Forms & more signals (client-rendered, fake API: src/server-fake-api.ts)
+  {
+    // Group: httpResource() → /http-resource/<example>
+    path: 'http-resource',
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'basics' },
+      {
+        path: 'basics',
+        title: 'httpResource() – podstawy',
+        loadComponent: () =>
+          import('./d-forms-and-more/d01-http-resource-basics').then(
+            (m) => m.D01HttpResourceBasics,
+          ),
+      },
+      {
+        path: 'states',
+        title: 'httpResource() – loading / error',
+        loadComponent: () =>
+          import('./d-forms-and-more/d02-http-resource-states').then(
+            (m) => m.D02HttpResourceStates,
+          ),
+      },
+      {
+        path: 'states-rxjs',
+        title: 'Loading / error – porównaj z RxJS',
+        loadComponent: () =>
+          import('./d-forms-and-more/d02b-http-client-states').then((m) => m.D02bHttpClientStates),
+      },
+      {
+        path: 'headers',
+        title: 'httpResource() – nagłówki',
+        loadComponent: () =>
+          import('./d-forms-and-more/d03-http-resource-headers').then(
+            (m) => m.D03HttpResourceHeaders,
+          ),
+      },
+    ],
+  },
+  {
+    path: 'rxjs-interop',
+    title: 'RxJS interop',
+    loadComponent: () =>
+      import('./d-forms-and-more/d04-rxjs-interop').then((m) => m.D04RxjsInterop),
+  },
+  {
+    // Group: Signal Forms → /signal-forms/<example>
+    path: 'signal-forms',
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'basics' },
+      {
+        path: 'basics',
+        title: 'Signal Forms – podstawy',
+        loadComponent: () =>
+          import('./d-forms-and-more/d05-signal-forms-basics').then((m) => m.D05SignalFormsBasics),
+      },
+      {
+        path: 'model',
+        title: 'Signal Forms – model i form()',
+        loadComponent: () =>
+          import('./d-forms-and-more/d06-signal-forms-model').then((m) => m.D06SignalFormsModel),
+      },
+      {
+        path: 'dynamic',
+        title: 'Signal Forms – formularz dynamiczny',
+        loadComponent: () =>
+          import('./d-forms-and-more/d07-signal-forms-dynamic').then(
+            (m) => m.D07SignalFormsDynamic,
+          ),
+      },
+      {
+        path: 'validators',
+        title: 'Signal Forms – walidatory',
+        loadComponent: () =>
+          import('./d-forms-and-more/d08-signal-forms-validators').then(
+            (m) => m.D08SignalFormsValidators,
+          ),
+      },
+      {
+        path: 'async-validators',
+        title: 'Signal Forms – walidatory async',
+        loadComponent: () =>
+          import('./d-forms-and-more/d09-signal-forms-async-validators').then(
+            (m) => m.D09SignalFormsAsyncValidators,
+          ),
+      },
+    ],
+  },
+  // Part E – State management: component → signal store (root) → DI tree scope → RxJS events → pub-sub → NgRx Signals
+  {
+    path: 'state',
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'component' },
+      {
+        path: 'component',
+        title: 'Stan w komponencie',
+        loadComponent: () =>
+          import('./e-state/e01-state-in-component').then((m) => m.E01StateInComponent),
+      },
+      {
+        path: 'signal-store',
+        title: 'Signal Store',
+        loadComponent: () =>
+          import('./e-state/e02-signal-store-page').then((m) => m.E02SignalStorePage),
+      },
+      {
+        path: 'di-tree',
+        title: 'Komunikacja – drzewo DI',
+        loadComponent: () => import('./e-state/e03-di-tree-page').then((m) => m.E03DiTreePage),
+      },
+      {
+        path: 'long-distance',
+        title: 'Daleka odległość – RxJS między serwisami',
+        loadComponent: () =>
+          import('./e-state/e04-long-distance-page').then((m) => m.E04LongDistancePage),
+      },
+      {
+        path: 'event-driven',
+        title: 'Event driven – pub-sub między domenami',
+        loadComponent: () =>
+          import('./e-state/e05-event-driven-page').then((m) => m.E05EventDrivenPage),
+      },
+      {
+        // Group: NgRx Signals → /state/ngrx/<example>
+        path: 'ngrx',
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'basics' },
+          {
+            path: 'basics',
+            title: 'NgRx Signals – podstawy (signalState)',
+            loadComponent: () =>
+              import('./e-state/e06-ngrx-basics-page').then((m) => m.E06NgrxBasicsPage),
+          },
+          {
+            path: 'signal-store',
+            title: 'NgRx Signals – signalStore',
+            loadComponent: () =>
+              import('./e-state/e06-signal-store-page').then((m) => m.E06SignalStorePage),
+          },
+          {
+            path: 'entities',
+            title: 'NgRx Signals – entities',
+            loadComponent: () =>
+              import('./e-state/e06-entities-page').then((m) => m.E06EntitiesPage),
+          },
+          {
+            path: 'events',
+            title: 'NgRx Signals – events',
+            loadComponent: () => import('./e-state/e06-events-page').then((m) => m.E06EventsPage),
+          },
+        ],
+      },
+    ],
   },
   { path: '**', redirectTo: 'structure/by-type' },
 ];

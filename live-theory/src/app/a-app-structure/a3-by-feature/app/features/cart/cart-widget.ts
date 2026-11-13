@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cart } from './state/cart';
 import { CartSummary } from './ui/cart-summary';
 
@@ -6,7 +6,6 @@ import { CartSummary } from './ui/cart-summary';
 @Component({
   selector: 'app-a3-cart-widget',
   imports: [CartSummary],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-a3-cart-summary [count]="cart.count()" [total]="cart.total()" (clear)="clearCart()" />
   `,

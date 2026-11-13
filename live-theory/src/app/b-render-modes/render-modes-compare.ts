@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export type RenderModeKey = 'csr' | 'ssr' | 'ssg';
 
@@ -16,7 +16,6 @@ interface ModeRow {
 /** Presentational: CSR vs SSR vs SSG side by side, current one highlighted. */
 @Component({
   selector: 'app-render-modes-compare',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'd-block mt-4' },
   template: `
     <div class="card">

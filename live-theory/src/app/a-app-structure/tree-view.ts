@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FeatureMeta, TreeDir, TreeEntry, TreeFile } from './structure-tree';
 
 /** Recursive, presentational folder tree. */
 @Component({
   selector: 'app-tree-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ul class="list-unstyled mb-0" [class.ms-4]="nested()">
       @for (entry of entries(); track entry.name) {

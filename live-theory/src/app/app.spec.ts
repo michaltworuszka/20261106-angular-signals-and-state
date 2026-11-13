@@ -10,22 +10,33 @@ describe('App', () => {
     }).compileComponents();
   });
 
-  it('should render brand', async () => {
+  it('renders the brand in the navbar', async () => {
+    // given
     const fixture = TestBed.createComponent(App);
+
+    // when
     await fixture.whenStable();
+
+    // then
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.navbar-brand')?.textContent).toContain('Angular Live Theory');
   });
 
-  it('should toggle mobile menu via signal', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const menu = compiled.querySelector('#app-menu')!;
-    expect(menu.classList).toContain('d-none');
+  describe('when the menu toggler is clicked', () => {
+    it('shows the hidden mobile menu', async () => {
+      // given
+      const fixture = TestBed.createComponent(App);
+      await fixture.whenStable();
+      const compiled = fixture.nativeElement as HTMLElement;
+      const menu = compiled.querySelector('#app-menu')!;
+      expect(menu.classList).toContain('d-none');
 
-    compiled.querySelector<HTMLButtonElement>('.navbar-toggler')!.click();
-    await fixture.whenStable();
-    expect(menu.classList).not.toContain('d-none');
+      // when
+      compiled.querySelector<HTMLButtonElement>('.navbar-toggler')!.click();
+      await fixture.whenStable();
+
+      // then
+      expect(menu.classList).not.toContain('d-none');
+    });
   });
 });

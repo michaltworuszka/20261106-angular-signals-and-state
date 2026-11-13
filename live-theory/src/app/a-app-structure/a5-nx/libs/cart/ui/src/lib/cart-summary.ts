@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { PricePipe } from '@shop/shared/ui';
 
 @Component({
   selector: 'app-a5-cart-summary',
   imports: [PricePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="card">
       <div class="card-body">

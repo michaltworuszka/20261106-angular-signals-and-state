@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StructureExplorer } from '../structure-explorer';
 import { dir, featureDir, file, SHOP_FEATURES, TreeDir, TreeFile } from '../structure-tree';
 import { Shop } from './apps/shop/src/app/shop';
@@ -62,7 +62,6 @@ const TREE = dir(
 @Component({
   selector: 'app-a5-nx-page',
   imports: [Shop, StructureExplorer],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       A5 – Nx: monorepo, biblioteki i tagi
@@ -168,7 +167,9 @@ const TREE = dir(
               <code>cart</code> zostaje prywatna.
             </p>
             <ul class="mb-2">
-              <li>Inne domeny → tylko <code>cart/api</code>, nigdy <code>cart/data-access</code>.</li>
+              <li>
+                Inne domeny → tylko <code>cart/api</code>, nigdy <code>cart/data-access</code>.
+              </li>
               <li><code>api</code> trzyma kompatybilność wstecz – to kontrakt między zespołami.</li>
               <li>
                 Alternatywa dla „wspólnego worka” w <code>shared</code>, który rośnie bez końca.
@@ -199,9 +200,8 @@ const TREE = dir(
             <p class="fw-semibold mb-1">To samo w Sheriff (A4) – bez Nx</p>
             <ul class="mb-0">
               <li>
-                Nowy moduł <code>features/&lt;domain&gt;/api</code> (folder +
-                <code>index.ts</code>) → tagi <code>domain:&lt;domain&gt;</code> +
-                <code>type:api</code>.
+                Nowy moduł <code>features/&lt;domain&gt;/api</code> (folder + <code>index.ts</code>)
+                → tagi <code>domain:&lt;domain&gt;</code> + <code>type:api</code>.
               </li>
               <li>
                 Bramka domeny: <code>'domain:*'</code> wpuszcza też <code>type:api</code> – czyli

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { PricePipe } from '../../../shared/ui';
 import { Product } from '../data';
 
@@ -6,7 +6,6 @@ import { Product } from '../data';
 @Component({
   selector: 'app-a4-product-list',
   imports: [PricePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ul class="list-group">
       @for (product of products(); track product.id) {

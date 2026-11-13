@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-b2-ssr-hydration-page',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       B2 – SSR: cykl życia i hydratacja
@@ -10,8 +9,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
     <p class="lead">
       Komponent uruchamia się <strong>dwa razy</strong>: w Node (robi HTML) i w przeglądarce
-      (hydratuje). Z serwera przechodzi tylko <strong>HTML</strong> (+ <code>TransferState</code>)
-      – stan komponentu, sygnały, pola klasy tworzą się od nowa.
+      (hydratuje). Z serwera przechodzi tylko <strong>HTML</strong> (+ <code>TransferState</code>) –
+      stan komponentu, sygnały, pola klasy tworzą się od nowa.
     </p>
 
     <div class="card mt-4">
@@ -49,7 +48,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <div class="card-header text-bg-danger">Źle</div>
           <div class="card-body">
             <pre class="small mb-2"><code>{{ browserApiBad }}</code></pre>
-            <pre class="small mb-0 text-danger-emphasis"><code>ReferenceError: localStorage is not defined</code></pre>
+            <pre
+              class="small mb-0 text-danger-emphasis"
+            ><code>ReferenceError: localStorage is not defined</code></pre>
             <p class="small text-body-secondary mb-0 mt-2">
               SSR → 500 dla użytkownika. SSG → błąd prerenderu w <code>ng build</code>.
             </p>
@@ -97,7 +98,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </div>
 
     <div class="card border-danger mt-3">
-      <div class="card-header text-bg-danger">Tak wygląda błąd (konsola przeglądarki, skrócony)</div>
+      <div class="card-header text-bg-danger">
+        Tak wygląda błąd (konsola przeglądarki, skrócony)
+      </div>
       <div class="card-body">
         <pre class="small mb-0 text-danger-emphasis"><code>{{ errorSample }}</code></pre>
       </div>
@@ -139,8 +142,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <code>afterNextRender()</code>.
         </li>
         <li>
-          Fragment tylko dla przeglądarki → <code>&#64;defer</code> (serwer renderuje
-          placeholder).
+          Fragment tylko dla przeglądarki → <code>&#64;defer</code> (serwer renderuje placeholder).
         </li>
       </ul>
     </blockquote>

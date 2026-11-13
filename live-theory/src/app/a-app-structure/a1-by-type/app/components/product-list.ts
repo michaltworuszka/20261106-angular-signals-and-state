@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cart } from '../services/cart';
 import { Catalog } from '../services/catalog';
 import { formatPrice } from '../utils/format-price';
@@ -6,7 +6,6 @@ import { formatPrice } from '../utils/format-price';
 // Naive: every component injects whatever service it needs (no smart/presentational split).
 @Component({
   selector: 'app-a1-product-list',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ul class="list-group">
       @for (product of catalog.products(); track product.id) {

@@ -107,4 +107,53 @@ export const MENU_SECTIONS: MenuSection[] = [
       },
     ],
   },
+  {
+    part: 'Część D',
+    title: 'Formularze i więcej()',
+    items: [
+      {
+        kind: 'group',
+        label: 'D1. httpResource() – dane z serwera',
+        children: [
+          { kind: 'link', link: '/http-resource/basics', label: 'Podstawy' },
+          { kind: 'link', link: '/http-resource/states', label: 'Loading / error' },
+          { kind: 'link', link: '/http-resource/states-rxjs', label: '↳ porównaj z RxJS' },
+          { kind: 'link', link: '/http-resource/headers', label: 'Nagłówki' },
+        ],
+      },
+      { kind: 'link', link: '/rxjs-interop', label: 'D2. RxJS interop – RxJS ↔ sygnały' },
+      {
+        kind: 'group',
+        label: 'D3. Signal Forms',
+        children: [
+          { kind: 'link', link: '/signal-forms/basics', label: 'Podstawy' },
+          { kind: 'link', link: '/signal-forms/model', label: 'Model i form()' },
+          { kind: 'link', link: '/signal-forms/dynamic', label: 'Formularz dynamiczny' },
+          { kind: 'link', link: '/signal-forms/validators', label: 'Walidatory' },
+          { kind: 'link', link: '/signal-forms/async-validators', label: 'Walidatory async' },
+        ],
+      },
+    ],
+  },
+  {
+    part: 'Część E',
+    title: 'State management',
+    items: [
+      { kind: 'link', link: '/state/component', label: 'E1. Komponenty – stan lokalny' },
+      { kind: 'link', link: '/state/signal-store', label: 'E2. Signal Store' },
+      { kind: 'link', link: '/state/di-tree', label: 'E3. Komunikacja – drzewo DI' },
+      { kind: 'link', link: '/state/long-distance', label: 'E4. Daleka odległość' },
+      { kind: 'link', link: '/state/event-driven', label: 'E5. Event driven' },
+      {
+        kind: 'group',
+        label: 'E6. NgRx Signals',
+        children: [
+          { kind: 'link', link: '/state/ngrx/basics', label: 'Podstawy' },
+          { kind: 'link', link: '/state/ngrx/signal-store', label: 'Signal store' },
+          { kind: 'link', link: '/state/ngrx/entities', label: 'Entities' },
+          { kind: 'link', link: '/state/ngrx/events', label: 'Events' },
+        ],
+      },
+    ],
+  },
 ];

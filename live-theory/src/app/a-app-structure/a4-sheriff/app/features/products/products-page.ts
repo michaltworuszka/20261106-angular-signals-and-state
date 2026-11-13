@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cart } from '../cart'; // ✅ other feature only via its barrel (index.ts)
 import { Product } from './data';
 import { ProductCatalog } from './state';
@@ -8,7 +8,6 @@ import { ProductList } from './ui';
 @Component({
   selector: 'app-a4-products-page',
   imports: [ProductList],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<app-a4-product-list [products]="catalog.products()" (add)="addToCart($event)" />`,
 })
 export class ProductsPage {

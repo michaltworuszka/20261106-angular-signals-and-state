@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StructureExplorer } from '../structure-explorer';
 import { dir, file, SHOP_FEATURES } from '../structure-tree';
 import { ShopComponent } from './app/shop.component';
@@ -55,7 +55,6 @@ const NAMING: NamingRow[] = [
 @Component({
   selector: 'app-a2-style-guide-page',
   imports: [ShopComponent, StructureExplorer],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       A2 – wg Style Guide

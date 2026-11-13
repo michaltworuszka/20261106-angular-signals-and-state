@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RenderModesCompare } from './render-modes-compare';
 
 @Component({
   selector: 'app-b1-csr-page',
   imports: [RenderModesCompare],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="h5 font-monospace text-body-secondary mb-3">
       B1 – CSR: renderowanie w przeglądarce
