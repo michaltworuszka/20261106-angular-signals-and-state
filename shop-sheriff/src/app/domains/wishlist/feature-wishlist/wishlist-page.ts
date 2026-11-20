@@ -1,7 +1,14 @@
-import { Component, Injectable, inject, signal, input, output, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormField, FormRoot, form, required, minLength } from '@angular/forms/signals';
 import { PageHeader } from '../../../shared/ui';
 import { WishlistItem } from './wishlist-item';
+import { DEMO_SLUGS, WishlistDetails } from '../util';
+import { WishlistToggle } from '../ui';
+import { WishlistStore } from '../data-access';
 
 // ### 1. Recap: sygnały i store
 //
@@ -14,94 +21,10 @@ import { WishlistItem } from './wishlist-item';
 // 1.6 Wepnij ♡ w listę demo: stan ze store'a → wejście, kliknięcie → `toggle`
 // 1.7 Sekcja "Liked" ma czytać sygnał ze store'a
 
-// data access ────────────────────────────────────────────────────────────────
-
-// @Injectable({ providedIn: 'root' })
-// export class WishlistStore {
-//   private _slugs: string[] = [];
-//
-//   get slugs(): string[] {
-//     return this._slugs;
-//   }
-//
-//   toggleOnList(slug: string): void {
-//     if(this.has(slug)) {
-//       this._slugs = this._slugs.filter(s => s !== slug);
-//     } else {
-//       this._slugs.push(slug);
-//     }
-//   }
-//
-//   has(slug: string): boolean {
-//     return this._slugs.includes(slug);
-//   }
-//
-//   get count(): number {
-//     return this._slugs.length;
-//   }
-// }
-
-@Injectable({ providedIn: 'root' })
-export class WishlistStore {
-  private _slugs = signal<string[]>([]);
-
-  slugs = this._slugs.asReadonly();
-  count = computed(() => this._slugs().length);
-
-  toggleOnList(slug: string): void {
-    this._slugs.update((sl) => (this.has(slug) ? sl.filter((s) => s !== slug) : [...sl, slug]));
-  }
-
-  has(slug: string): boolean {
-    return this._slugs().includes(slug);
-  }
-}
-
-// component (ui) ────────────────────────────────────────────────────────────────
-
-@Component({
-  selector: 'app-wishlist-toggle',
-  template: `
-    <button
-      type="button"
-      class="btn btn-sm"
-      [class.btn-danger]="active()"
-      [class.btn-outline-danger]="!active()"
-      [attr.aria-pressed]="active()"
-      [attr.aria-label]="active() ? 'Remove from wishlist' : 'Add to wishlist'"
-      (click)="addToList.emit()"
-    >
-      {{ active() ? '♥' : '♡' }}
-    </button>
-  `,
-})
-export class WishlistToggle {
-  readonly active = input(false);
-  readonly addToList = output<void>();
-}
-
-// RUNTIME Exception - widoczny będzie w konsoli przeglądarki (f12) narzędzia DevTools
-// throwError() {
-//   throw new Error('!');
-// }
 
 // ─────────────────────────────────────────────────────────────────
 
 /** Real slugs from shop-api. */
-const DEMO_SLUGS = [
-  'typeforge-tkl-mechanical-keyboard',
-  'typeforge-75-wireless-keyboard',
-  'typeforge-low-profile-keyboard',
-  'typeforge-ergonomic-split-keyboard',
-  'typeforge-60-compact-keyboard',
-];
-
-interface WishlistDetails {
-  name: string;
-  description: string;
-
-  giftSlug: string;
-}
 
 @Component({
   selector: 'app-wishlist-page',
@@ -115,7 +38,7 @@ interface WishlistDetails {
           {{ slug }}
           <app-wishlist-toggle
             [active]="wishlistStore.has(slug)"
-            (addToList)="wishlistStore.toggleOnList(slug)"
+            (toggled)="wishlistStore.toggleOnList(slug)"
           />
         </li>
       }
@@ -216,8 +139,19 @@ export class WishlistPage {
       submission: {
         action: async () => {
           console.log(this.detailsModel());
+          this.detailsModel.set({name: '...', description: '', giftSlug: ''});
+          this.detailsForm().reset();
         },
       },
     },
   );
 }
+
+// ### 2. Podział na warstwy (recap Sheriff)
+//
+// 2.1 W `feature-wishlist` leżą jeszcze `wishlist-store.ts`, `wishlist-toggle.ts` (♡), `wishlist-item.ts` i `wishlist-page.ts`. Każdy to inna warstwa. Jaka?
+//   Rozdziel tak, jak zbudowane są inne domeny
+// 2.2 `WishlistItem` — `ui` czy `feature`? Dlaczego?
+//   2.3 `pnpm sheriff:verify` + `pnpm lint`. Co eksportuje każdy `index.ts`?
+//   2.4 Modele też wynieś z plików komponentów: `WishlistDetails` (z `wishlist-page.ts`) i `WishlistProduct` (z `wishlist-item.ts`) → `util/wishlist.models.ts`.
+//   `util/index.ts` — `export type { … }`. Podejrzyj jak robią to inne domeny (`catalog/util`)
