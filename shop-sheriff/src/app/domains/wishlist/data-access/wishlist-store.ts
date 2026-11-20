@@ -48,6 +48,13 @@ export class WishlistStore {
   }
 }
 
+// ### 3. Formularz, zapis do Store
+//
+//   3.1 W `WishlistStore`, przygotuj zapis formularza `saveDetails(details)`
+// 3.2 W `WishlistStore`, przygotuj sygnał (tylko do odczytu) jako np.: `details()`
+// 3.3 Podłącz zapis, "Save" → `saveDetails` w `submission.action` (teraz `console.log`).
+
+
 
 // ### 1. Przygotowanie podziału
 //
